@@ -86,9 +86,14 @@ func testAccCheckELBBackendExists(n string, backend *backendmember.Backend) reso
 }
 
 var TestAccELBBackendConfig_basic = fmt.Sprintf(`
+resource "opentelekomcloud_vpc_v1" "vpc_1" {
+	name = "terraform-testacc-vpc-elb"
+	cidr= "192.168.0.0/16"
+}
+
 resource "opentelekomcloud_elb_loadbalancer" "loadbalancer_1" {
   name = "loadbalancer_1"
-  vpc_id = "%s"
+  vpc_id = "${opentelekomcloud_vpc_v1.vpc_1.id}"
   type = "External"
   bandwidth = 5
 }
@@ -126,4 +131,4 @@ resource "opentelekomcloud_elb_backend" "backend_1" {
     delete = "5m"
   }
 }
-`, OS_VPC_ID, OS_SERVER_ADDRESS, OS_SERVER_ID)
+`, OS_SERVER_ADDRESS, OS_SERVER_ID)
