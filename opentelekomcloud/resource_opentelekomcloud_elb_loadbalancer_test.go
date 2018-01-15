@@ -193,6 +193,11 @@ resource "opentelekomcloud_elb_loadbalancer" "loadbalancer_1" {
 `)
 
 var testAccELBLoadBalancerConfig_update = fmt.Sprintf(`
+resource "opentelekomcloud_vpc_v1" "vpc_1" {
+	name = "terraform-testacc-vpc-elb"
+	cidr= "192.168.0.0/16"
+}
+
 resource "opentelekomcloud_elb_loadbalancer" "loadbalancer_1" {
   name = "loadbalancer_1_updated"
   admin_state_up = "true"
